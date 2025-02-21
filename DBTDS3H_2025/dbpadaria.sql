@@ -6,10 +6,15 @@ create database dbpadaria;
 use dbpadaria;
 --criando as tabelas no banco de dados
 
-create table tbGenero(
-codGen int not null auto_increment,
+create table tbClientes(
+codCli int NOT NULL AUTO_INCREMENT,
 nome varchar(100),
-primary key(codGen));
+cpf char(14) NOT NULL unique,
+email varchar(100) unique,
+primary key(codCli)
+);
+
+
 
 create table tbFuncionarios(
 codFunc int not null auto_increment,
@@ -19,9 +24,8 @@ telCel char(10),
 dataNasc datetime,
 salario decimal(9,2) default 0 check(salario >= 0),
 sexo char(1) default "F" check(sexo in("F","M")),
-codGen int not null,
-primary key(codFunc),
-foreign key(codGen)references tbGenero(codGen));
+primary key(codFunc));
+
 
 create table tbUsuarios(
 codUsu int not null auto_increment,
@@ -50,14 +54,6 @@ codForn int not null,
 primary key(codProd),
 foreign key(codForn)references tbFornecedores(codForn));
 
-create table tbClientes(
-codCli int NOT NULL AUTO_INCREMENT,
-nome varchar(100),
-cpf char(14) NOT NULL unique,
-email varchar(100),
-primary key(codCli)
-);
-
 create table tbVendas(
 codVend int not null auto_increment,
 dataVend date, 
@@ -75,10 +71,33 @@ foreign key (codCli) references tbClientes(codCli));
 -- visualizando as tabelas
 show tables;
 -- visualizando a estrutura das tabelas
-desc tbGenero;
-desc tbUsuarios;
 desc tbFornecedores;
-desc tbFuncionarios;
 desc tbClientes;
-desc tbVendas;
 desc tbProdutos;
+desc tbVendas;
+desc tbFuncionarios;
+desc tbUsuarios;
+
+--inserindo registros nas tabelas
+
+insert into tbClientes(nome,cpf,email)
+	values('Manuel Ribeiro',
+		' 235.344.567-45',
+		'manuel123@gmail.com');
+
+	insert into tbClientes(nome,cpf,email)
+	values('Átila da Silva', ' 235.384.567-45', 'Átila007@gmail.com');
+
+	insert into tbFornecedores(nome,email,telCel)
+	values('Verduras do grau', ' legumeaquinao@gmail.com', '95641-1560');
+
+
+	insert into tbFuncionarios(nome,email,telCel, dataNasc, salario, sexo)
+	values('Laércio Pinto', 'laercio.pinto@gmail.com', '95441-1560', '2000-12-15', 1500.00, 'M');
+
+--visualizando os registros nas tabelas
+
+
+select * from tbClientes;
+select * from tbFornecedores;
+select * from tbFuncionarios;
